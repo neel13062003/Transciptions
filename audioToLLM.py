@@ -563,5 +563,32 @@ def main():
     # Main interface
     st.title("💬 Audio Analysis Dashboard")
     
+    # Show Transcriptions in UI
+    st.markdown("### 🎧 Transcriptions")
+    if st.session_state.audio_files:
+        for file_name, data in st.session_state.audio_files.items():
+            st.subheader(f"📂 {file_name}")
+            st.text_area(f"Transcript of {file_name}", data["transcript"], height=150)
+
+    # Chat Interface for Querying Transcripts
+    st.markdown("### 💬 Ask Questions About the Audio")
+    user_input = st.text_input("Ask a question about the uploaded audio...")
+
+    if st.button("Submit Query"):
+        if not user_input:
+            st.warning("Please enter a question before submitting.")
+        else:
+            response = process_chat_input(user_input)
+            st.session_state.chat_history.append({"role": "assistant", "content": response})
+            st.success("Response generated!")
+
+    # Display Chat History
+    if st.session_state.chat_history:
+        st.markdown("### 📝 Chat History")
+        for chat in st.session_state.chat_history:
+            role_icon = "🧑‍💻" if chat["role"] == "user" else "🤖"
+            st.markdown(f"**{role_icon} {chat['role'].capitalize()}**: {chat['content']}")
+
+
 if __name__ == "__main__":
     main()
