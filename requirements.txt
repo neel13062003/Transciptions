@@ -1,0 +1,9 @@
+openai==0.28.0
+os
+pyttsx3
+speechrecognition
+streamlit
+datetime
+threading
+asyncio
+python-dotenv
